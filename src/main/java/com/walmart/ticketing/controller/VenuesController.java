@@ -1,13 +1,11 @@
 package com.walmart.ticketing.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.walmart.ticketing.exceptions.ResourceNotFoundException;
@@ -20,7 +18,7 @@ import com.walmart.ticketing.service.VenueService;
 
 @RestController
 @RequestMapping("/api/venues")
-public class VenuesController {
+public class VenuesController{
 	
 	@Autowired
 	VenueService venueService;
@@ -34,13 +32,13 @@ public class VenuesController {
 	@Autowired
 	TicketServiceImpl ticketService;
 	
-	@RequestMapping(value="", method=RequestMethod.GET)
+	@GetMapping(value="")
 	public List<Venue> getAllVenues() {
 		return venueService.getAllVenues();
 	}
 
 	//given ID of venue, will display number of seats available (not held, not reserved)
-	@RequestMapping(value="{id}", method=RequestMethod.GET)
+	@GetMapping(value="{id}")
 	public FullVenueInfo getVenueInfo(@PathVariable("id") String id) throws Exception {
 		FullVenueInfo fvi =  venueService.getVenueInfo(id);
 		
@@ -51,8 +49,12 @@ public class VenuesController {
 		}
 	}
 	
+	public void something() {
+		System.out.println("----");
+	}
+	
 	//given ID of venue, will display number of seats available (not held, not reserved)
-	@RequestMapping(value="{id}/availableSeats", method=RequestMethod.GET)
+	@GetMapping(value="{id}/availableSeats")
 	public int getVenueAvailableSeats(@PathVariable("id") String id) throws Exception {
 		Integer numAvail = ticketService.numSeatsAvailable(id);
 		if (numAvail==null) {

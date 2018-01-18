@@ -5,9 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,12 +29,12 @@ public class SeatReservedController {
 	@Autowired
 	TicketServiceImpl ticketService;
 	
-	@RequestMapping(value="", method=RequestMethod.GET)
+	@GetMapping(value="")
 	public List<SeatGroupReserved> getAllHolds(){
 		return sgrService.getAllSeatGroupReserves();
 	}
 	
-	@RequestMapping(value="{id}", method=RequestMethod.GET)
+	@GetMapping(value="{id}")
 	public SeatGroupReserved getHoldSeatId(@PathVariable("id") String id) {
 		SeatGroupReserved sgr = sgrService.getSeatGroupReservedById(id);
 		
@@ -45,7 +46,7 @@ public class SeatReservedController {
 	}
 	
 	//given 'seatHoldId' reserve them
-	@RequestMapping(value="", method=RequestMethod.POST)
+	@PostMapping(value="")
 	public ResponseMessage reserveSeats(@RequestParam("seatHoldId") String seatHoldId, 
 							@RequestParam("email") String customerEmail,
 							HttpServletRequest request){

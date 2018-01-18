@@ -30,7 +30,7 @@ public class SeatSolver {
 
 		for (FactorPair proposedDimension : proposedDimensions) {
 			System.out.println(proposedDimension.hSpread + " " + proposedDimension.vSpread + " " + !(proposedDimension.hSpread >= maxHor && proposedDimension.vSpread >= maxVer));
-			if (!(proposedDimension.hSpread >= maxHor && proposedDimension.vSpread >= maxVer)) {
+			if (!(proposedDimension.hSpread > maxHor || proposedDimension.vSpread > maxVer)) {
 				List<Coordinate> result = placeSeatGroup(venueLayout, proposedDimension.hSpread, proposedDimension.vSpread);
 				if (result != null) { //if proposed dimension fits into the venue, then return. Otherwise, keep looking
 					return result;
@@ -178,6 +178,9 @@ class Factor {
 		
 		if (num == 0) {
 			factorPairs.add(new FactorPair(0, 0));
+			return;
+		}else if (num == 1) {
+			factorPairs.add(new FactorPair(1, 1));
 			return;
 		}
 
