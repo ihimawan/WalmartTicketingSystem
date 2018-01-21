@@ -148,7 +148,7 @@ Sample failed seat reservation:
 }
 ```
 
-## Assumptions in the Project
+## 3. Assumptions in the Project
 
 - The project will run on ```localhost:8090``` and will be using an embedded H2 database.
 - The seat layout for each venue is a rectangle with dimensions NxM, and the number of seats is N * M. For example, a seat layout of 5x6 would have a total number of 30 seats, 5 consecutive seats for each 6 rows. 1 seat can only be for 1 person.
@@ -161,37 +161,37 @@ Sample failed seat reservation:
 - Each seat that belongs to seat hold/seat reservation must only be from one venue.
 - One customer can make multiple holds and multiple reservations. 
 
-## 3. Best Seat Algorithm Design
+## 4. Best Seat Algorithm Design
 The problem itself seems like a known disk-allocation problem. If this weren't an excercise I would research on what the best disk-allocation algorithms are present, but since the task is to come up with one on your own, I've spared the arduous task of researching for the best disk-allocation algorithm. The short description to my best seat algorithm is it is a modification of a contigous allocation. The problem is since we are considering 'people' in this algorithm, if we have venue of 5x5 and there is a request for 6 people, would we put 5 in one row and 1 in the next one? **My idea of a 'best seat' is that not one person should be isolated from the group.** To do that, given a 5x5 layout and 6 seat requests, my 'best seat' algorithm does the following:
 - Factorize the number 6, and each factorization will be the potential dimension of the seating. Factorization of 6 results in 6x1, 3x2, and 2x3 (1x6 is ommitted because we don't want people be placed vertically away from the stage). 
 - For each dimension, try to fit in the available seats of the venue layout. In this case, if all seats are available, then 3x2 would be the ideal dimension (larger width first). This way, not one person would be left out in the seating. If no dimensions are able to fit, then there are no 'best seats'.
 
 
-### 3.1 Strengths to the chosen design
+### 4.1 Strengths to the chosen design
 
 - Not one person would be alone, which fits my criteria of a 'best seat finder'.
 - Works for requests for X number of seats where if there exists an integer N and M where N * M is the factorization of X and N <= number of columns in venue and M <= number of rows in venue.
 
 
-### 3.2 Problems to the chosen design
+### 4.2 Problems to the chosen design
 
 - First problem is with prime numbers; say we have an empty 5x5 layout, and we would like 7 people to be placed. The only available factorization is 7x1, which would not fit, resulting in no 'best seats', which is untrue.
 - Second problem, using the same empty 5x5 layout, say we would like to request 24 seats. None of its factorization would result in a dimension that will fit. This problem would have been easily solved with contigous allocation. 
 
-### 3.3 Improving the chosen design
+### 4.3 Improving the chosen design
 
 Although the current 'best-seat finder' was implemented, considering the problems of the implementation, I wish that I had more chance to improve it. 
-- One thing could be done is, before applying the current best-seat finder, first to do a contiguous allocation. If there exists a person who will be isolated (i.e. person/people separated from where the seat is mostly allocated), then instead use the current best-seat finder. Still, this won't be a foolproof design since the two problems mentioned in 3.2 could still very well persist. 
-- Another alternative is to try the current best-seat finder but if it fails (due to either reasons 1 or 2 in section 3.2), come up with an algorithm that can separate the requested seat number in a way that it would fit. For example, in a 5x5 venue with a 24 seat request, the number 24 could be divided into two seat requests of 20 and 4. In which case, the venue will be inserted with a block of 5x4 and 4x1. It could work for the prime number problem as well. For example, 7 seat requests can be devided into 4 and 3 seat requests with 4x1 and 3x1 block. But this will require finding the optimal algorithm to separate a seat request to multiple seat requests in a way that it fits the venue and does not leave any one person isolated. 
+- One thing could be done is, before applying the current best-seat finder, first to do a contiguous allocation. If there exists a person who will be isolated (i.e. person/people separated from where the seat is mostly allocated), then instead use the current best-seat finder. Still, this won't be a foolproof design since the two problems mentioned in 4.2 could still very well persist. 
+- Another alternative is to try the current best-seat finder but if it fails (due to either reasons 1 or 2 in section 4.2), come up with an algorithm that can separate the requested seat number in a way that it would fit. For example, in a 5x5 venue with a 24 seat request, the number 24 could be divided into two seat requests of 20 and 4. In which case, the venue will be inserted with a block of 5x4 and 4x1. It could work for the prime number problem as well. For example, 7 seat requests can be devided into 4 and 3 seat requests with 4x1 and 3x1 block. But this will require finding the optimal algorithm to separate a seat request to multiple seat requests in a way that it fits the venue and does not leave any one person isolated. 
 
-### 3.4 Considering other designs
+### 4.4 Considering other designs
 - I was considering an option where a 'seat' is defined merely a 'collection of seats,' analogous to what we call a 'section.' For example, section on coordinate (0,0) can have the capacity of 100 people. But those 100 does not have any location property on them (i.e. a capacity is not identified by any coordinates, it is just 'there' in that section). This would certainly eliminate the need to make a SQL insert statement for every single seat and it would be easier to imagine venues in a large scale. The solution to finding the 'best seat' would also be very straight forward. Meaning that if a user requests for an X number of seats, find the most front and then most left section that whose capacity > X. And substract X from capacity, ergo that would be the new capacity of the section. The X number of people that has just been assigned as section can sit however they want, without the seat being recorded in the database. If it comes a situation where there are no more sections that can hold the X number of seat requests, then that number could be separated among sections. It could be that one person be left out, but nevertheless, it's a solution that could result in no unused spaces. However, as straight-forward as it is, it does not seem to be the purpose of the coding challenge. I have the impression that one seat should be treated as 1 person, and not a capacity.
 - I was considering using merely the contiguous allocation algorithm, following the memory model. The benefit of using this algorithm is that there would potentially be no unused seats. However, considering the context of 'people', like mentioned in the previous section, one person could be left out to their own different row. 
  
 However, all in all, considering real-world context, what a 'best seat' is subjective to the person. It could be that there is one person who wants to be separated from the party to enjoy the show alone. 
 
 
-## Things to Improve
+## 5. Things to Improve
 
 * Adding security layer (e.g. Basic Authentication)
 * Adding UI, possibly best with ReactJS to leverage the API's
