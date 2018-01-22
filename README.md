@@ -193,9 +193,9 @@ Although the current 'best-seat finder' was implemented, considering the problem
 However, all in all, considering real-world context, what a 'best seat' is subjective to the person. It could be that there is one person who wants to be separated from the party to enjoy the show alone. 
 
 
-## 5. Things to Improve
+## 5. Other things that can be added
 
 * Adding security layer (e.g. Basic Authentication)
 * Adding UI, possibly best with ReactJS to leverage the API's
 * Adding multiple AI's as threads that holds and reserves seats to simulate real-time interaction
-* And of course, the 'best seat' algorithm
+* And of course, improve the 'best seat' algorithm
