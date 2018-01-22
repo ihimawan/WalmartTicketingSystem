@@ -178,6 +178,18 @@ public class TicketServiceTest {
 		assertTrue(sgh.isClaimed());
 		assertEquals(email, sgr.getCustomerId().getEmail());
 	}
+	
+	@Test
+	public void testK_reserveSeats_repeatingReserve() throws Exception{
+		String seatHold = createdSeatGroupHoldId;
+		String email = "test@test.com";
+		try {
+			String reserveId = ticketService.reserveSeats(seatHold, email);
+			fail("Exception expected");
+		}catch(Exception e) {
+			assertEquals("Seat hold with id="+ seatHold + " already claimed", e.getMessage());
+		}
+	}
 
 }
  
