@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,8 @@ import com.walmart.ticketing.service.TicketServiceImpl;
 @RestController
 @RequestMapping("/api/seatHolds")
 public class SeatHoldController {
+	
+	private static Logger log = Logger.getLogger(SeatHoldController.class);
 
 	@Autowired
 	TicketServiceImpl ticketService;
@@ -57,6 +60,7 @@ public class SeatHoldController {
 		try {
 			SeatGroupHold newSgh = ticketService.findAndHoldSeats(numSeats, customerEmail, venueId);
 			rm = new ResponseMessage(Status.SUCCESS, "Your seatHoldId=" + newSgh.getId());
+			log.info("New seat hold has been requested. Resulting hold id=" + newSgh.getId());
 			String linkUrl = String.format("%s://%s:%d/api/seatHolds/%s",request.getScheme(),  request.getServerName(), request.getServerPort(), newSgh.getId());
 			rm.setLink(linkUrl);
 		} catch (Exception e) {

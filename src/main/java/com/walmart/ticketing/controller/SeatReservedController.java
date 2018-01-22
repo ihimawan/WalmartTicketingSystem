@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,8 @@ import com.walmart.ticketing.service.TicketServiceImpl;
 @RestController
 @RequestMapping("/api/seatReserves")
 public class SeatReservedController {
+	
+	private static Logger log = Logger.getLogger(SeatReservedController.class);
 
 	@Autowired
 	SeatGroupReservedService sgrService;
@@ -59,7 +62,7 @@ public class SeatReservedController {
 			rm = new ResponseMessage (Status.SUCCESS, "Reserved with id=" + reservationId);
 			String linkUrl = String.format("%s://%s:%d/api/seatReserves/%s",request.getScheme(),  request.getServerName(), request.getServerPort(), reservationId);
 			rm.setLink(linkUrl);
-			
+			log.info("Reservations has been made based on seatHoldId="+seatHoldId+". Resulting reservation ID=" + reservationId);
 		} catch (Exception e) {
 			rm = new ResponseMessage (Status.FAILURE, e.getMessage());
 		}

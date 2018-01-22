@@ -171,7 +171,8 @@ The problem itself seems like a known disk-allocation problem. If this weren't a
 ### 4.1 Strengths to the chosen design
 
 - Not one person would be alone, which fits my criteria of a 'best seat finder'.
-- Works for requests for X number of seats where if there exists an integer N and M where N * M is the factorization of X and N <= number of columns in venue and M <= number of rows in venue.
+- Works for requests for X number of seats where if there exists an integer N and M where N * M is a factorization of X and N <= number of columns in venue and M <= number of rows in venue.
+- Works best for venues what have a large dimension compared to the number of seats requested (e.g. A venue of 30x25 to accommodate requests of 3-12 seat requests, which sounds more practical in the real world scenario).
 
 
 ### 4.2 Problems to the chosen design
