@@ -35,8 +35,7 @@ public class SeatHoldController {
 	}
 
 	@RequestMapping(value="{id}", method=RequestMethod.GET)
-	public SeatGroupHold getHoldSeatId(@PathVariable("id") String id,
-										HttpServletResponse hsr) throws Exception {
+	public SeatGroupHold getHoldSeatId(@PathVariable("id") String id) throws Exception {
 		
 		SeatGroupHold sgh = sghService.getSeatGroupHoldById(id);
 		
@@ -48,7 +47,7 @@ public class SeatHoldController {
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public ResponseMessage test(@RequestParam("numSeats") int numSeats,
+	public ResponseMessage requestHold(@RequestParam("numSeats") int numSeats,
 								@RequestParam("email") String customerEmail,
 								@RequestParam("venueId") String venueId,
 								HttpServletRequest request) {
@@ -62,7 +61,6 @@ public class SeatHoldController {
 			rm.setLink(linkUrl);
 		} catch (Exception e) {
 			rm = new ResponseMessage(Status.FAILURE, e.getMessage());
-			e.printStackTrace();
 		}
 		return rm;
 	}

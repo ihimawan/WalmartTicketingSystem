@@ -27,10 +27,10 @@ public class TicketServiceImpl implements TicketService {
 	SeatGroupReservedService sgrService;
 
 	@Override
-	public Integer numSeatsAvailable(String venueId) throws Exception {
+	public int numSeatsAvailable(String venueId) throws Exception {
 		
 		if (venueService.getVenueById(venueId) == null) {
-			return null;
+			return -1;
 		}
 		
 		return seatService.getAvailableSeatCount(venueService.getNameOfVenue(venueId));

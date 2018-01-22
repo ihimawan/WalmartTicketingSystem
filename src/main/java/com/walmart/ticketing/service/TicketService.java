@@ -13,7 +13,7 @@ public interface TicketService {
 	* @return the number of tickets available in the venue
 	 * @throws Exception 
 	*/
-	Integer numSeatsAvailable(String venueId) throws Exception;
+	int numSeatsAvailable(String venueId) throws Exception;
 	
 	/**
 	* Find and hold the best available seats for a customer

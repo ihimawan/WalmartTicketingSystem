@@ -2,6 +2,8 @@ package com.walmart.ticketing.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +35,7 @@ public class VenuesController{
 	TicketServiceImpl ticketService;
 	
 	@GetMapping(value="")
-	public List<Venue> getAllVenues() {
+	public List<Venue> getAllVenues(HttpServletRequest request) {
 		return venueService.getAllVenues();
 	}
 
@@ -49,15 +51,11 @@ public class VenuesController{
 		}
 	}
 	
-	public void something() {
-		System.out.println("----");
-	}
-	
 	//given ID of venue, will display number of seats available (not held, not reserved)
 	@GetMapping(value="{id}/availableSeats")
 	public int getVenueAvailableSeats(@PathVariable("id") String id) throws Exception {
-		Integer numAvail = ticketService.numSeatsAvailable(id);
-		if (numAvail==null) {
+		int numAvail = ticketService.numSeatsAvailable(id);
+		if (numAvail==-1) {
 			throw new ResourceNotFoundException("Venue with id="+id+" isn't found.");
 		}else {
 			return numAvail;

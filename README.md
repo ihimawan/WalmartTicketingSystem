@@ -13,10 +13,11 @@ In this README.md document, you should be able to find the following information
 
 ## 1. Starting and Stopping the web service
 
-Navigate to the ```WalmartTicketingSystem``` directory and do the execute the file ```ticketingStartup.sh``` in the Terminal/command line. It will run ```mvn clean install``` and you will be able to access the web service on:
+Navigate to the ```WalmartTicketingSystem``` directory and do the execute the file ```ticketingStartup.sh``` in the Terminal/command line. It will run ```mvn clean install``` to run the test and build, after you see the following lines you will be able to access the web service in ```localhost:8090```
 
 ```
-localhost:8090
+2018-01-21 20:31:47.876  INFO 8413 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8090 (http)
+2018-01-21 20:31:47.882  INFO 8413 --- [           main] c.w.t.WalmartTicketingSystemApplication  : Started WalmartTicketingSystemApplication in 15.365 seconds (JVM running for 15.771)
 ```
 
 The database being used is H2, to access the database 

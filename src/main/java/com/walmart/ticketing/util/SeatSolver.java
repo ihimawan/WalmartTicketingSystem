@@ -11,8 +11,8 @@ public class SeatSolver {
 	public static List<Coordinate> getBestSeats(int numOfSeats, int maxVer, int maxHor, List<Seat> availableSeats)
 			throws Exception {
 		
-		if (numOfSeats == 0) {
-			throw new Exception("0 number of seats cannot be booked.");
+		if (numOfSeats <= 0) {
+			throw new Exception(numOfSeats + " number of seats cannot be booked.");
 		}
 
 		if (numOfSeats > availableSeats.size()) {
@@ -29,7 +29,6 @@ public class SeatSolver {
 		List<FactorPair> proposedDimensions = (new Factor(numOfSeats)).getFactorPairs();
 
 		for (FactorPair proposedDimension : proposedDimensions) {
-			System.out.println(proposedDimension.hSpread + " " + proposedDimension.vSpread + " " + !(proposedDimension.hSpread >= maxHor && proposedDimension.vSpread >= maxVer));
 			if (!(proposedDimension.hSpread > maxHor || proposedDimension.vSpread > maxVer)) {
 				List<Coordinate> result = placeSeatGroup(venueLayout, proposedDimension.hSpread, proposedDimension.vSpread);
 				if (result != null) { //if proposed dimension fits into the venue, then return. Otherwise, keep looking
@@ -51,7 +50,6 @@ public class SeatSolver {
 
 		for (int rowNum = 0; rowNum < maxRow; rowNum++) {
 
-			System.out.println("ROW - " + rowNum);
 			
 			// if vertical spread is not going to fit, don't bother to keep looking.
 			if (rowNum + vSpread > maxRow) {
@@ -60,8 +58,6 @@ public class SeatSolver {
 
 			int firstAvailCol = firstAvailableColNumInRow(venueLayout, rowNum);
 			
-			System.out.println("Firstavailcol-" + firstAvailCol);
-			System.out.println(firstAvailCol != -1 && firstAvailCol + hSpread <= maxCol);
 
 			// if there is first available column in row (row is not full) && if horizontal spread will fit
 			if (firstAvailCol != -1 && firstAvailCol + hSpread <= maxCol) {
@@ -72,15 +68,11 @@ public class SeatSolver {
 				// if able then try to find vertical spread
 				if (horizontalCoor != null) {
 
-					System.out.println(horizontalCoor);
-					
 					List<Coordinate> verticalCoor = new ArrayList<Coordinate>();
 					for (Coordinate coor : horizontalCoor) {
 						List<Coordinate> verticalCoorPiece = getVerticalSpread(venueLayout, vSpread-1, coor.getColumn(),
 								coor.getRow()+1);
 						
-						System.out.println("vert-" + verticalCoorPiece);
-
 						// the vertical spread is disturbed. move on to next row
 						if (verticalCoorPiece == null) {
 							break;
@@ -115,11 +107,9 @@ public class SeatSolver {
 
 		for (int colNum = firstAvailCol; colNum < firstAvailCol + hSpread; colNum++) {
 			// OTHERWISE, add [rowNum, firstAvailCol]...[rowNum, firstAvailCol+hSpread]
-			System.out.println("ColNum-" + rowNum + " " + colNum);
 			res.add(new Coordinate(rowNum, colNum));
 		}
 
-		System.out.println(res);
 		return res;
 	}
 
@@ -136,7 +126,6 @@ public class SeatSolver {
 
 		for (int rowNum = rowStart; rowNum < rowStart + vSpread; rowNum++) {
 			// OTHERWISE, add [rowNum, colNum]...[rowNum+vSpread, colNum]
-			System.out.println("RowNum-" + new Coordinate(rowNum, colNum));
 			res.add(new Coordinate(rowNum, colNum));
 		}
 

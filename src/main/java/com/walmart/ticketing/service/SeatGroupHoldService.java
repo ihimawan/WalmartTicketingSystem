@@ -43,6 +43,7 @@ public class SeatGroupHoldService {
 		return getSeatGroupHoldById(seatHoldId).getSeatId();
 	}
 	
+	@Transactional
 	public SeatGroupHold getSeatGroupHoldById(String seatHoldId){
 		return sghRepo.findOne(seatHoldId);
 	}
@@ -75,6 +76,10 @@ public class SeatGroupHoldService {
 		
 		if (sgh == null) {
 			throw new Exception("There is no seat hold with id="+seatHoldId);
+		}
+		
+		if (sgh.isClaimed()) {
+			throw new Exception("Seat hold with id="+ seatHoldId + " already claimed");
 		}
 		
 		if (!isSeatHoldValid(sgh, new Date())) {
