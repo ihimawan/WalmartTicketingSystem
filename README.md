@@ -157,7 +157,7 @@ Sample failed seat reservation:
 - There are three states to a seat, 'available,' 'held,' and 'reserved.'
 - An 'available' seat can become a 'held' seat through a request from API endpoint.
 - A 'held' seat can only become an 'available' if the seat has been in 'held' for ```100``` seconds (this setting can be changed under. ```src/main/resources/application.properties``` for ```hold.expirationSeconds```). There cannot be manual intervention to make a 'held' seat back to 'available.'
-- A 'held' seat can only become a 'reserved' seat if the seat is reservation is made only through the API endpoint. 
+- A 'held' seat can only become a 'reserved' seat if the seat is reservation is made only ONCE (cannot reserve the same seat hold ID) through the API endpoint. 
 - Once a seat becomes 'reserved' it will stay 'reserved' in the lifetime of the H2 database. 
 - Each seat that belongs to seat hold/seat reservation must only be from one venue.
 - One customer can make multiple holds and multiple reservations. 
