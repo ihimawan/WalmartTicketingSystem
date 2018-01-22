@@ -1,4 +1,4 @@
-# Walmart Ticketing System - Restful Web Service
+# Walmart Ticketing System - RESTful Web Service
 
 This project is a Spring Boot Restful application that allows users to see the status of a certain venue, obtain and hold the 'best seats' (the definition of 'best seats' will be discussed later in the document), as well as reserve held seats. The assumption is that the user can only interact through the RESTful API's, with little to no interaction with the database. Therefore, the information output from the endpoints shall be made as comprehensive as possible.
 
@@ -13,12 +13,13 @@ In this README.md document, you should be able to find the following information
 
 ## 1. Starting and Stopping the web service
 
-Navigate to the ```WalmartTicketingSystem``` directory and do the execute the file ```ticketingStartup.sh``` in the Terminal/command line. It will run ```mvn clean install``` to run the test and build, after you see the following lines you will be able to access the web service in ```localhost:8090```
+Navigate to the ```WalmartTicketingSystem``` directory and do the execute the file ```ticketingStartup.sh``` in the Terminal/command line. It will run ```mvn clean install``` to run the test and build, after you see the following lines:
 
 ```
 2018-01-21 20:31:47.876  INFO 8413 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8090 (http)
 2018-01-21 20:31:47.882  INFO 8413 --- [           main] c.w.t.WalmartTicketingSystemApplication  : Started WalmartTicketingSystemApplication in 15.365 seconds (JVM running for 15.771)
 ```
+you will be able to access the web service in ```localhost:8090```
 
 The database being used is H2, to access the database 
 ```
