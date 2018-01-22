@@ -8,23 +8,15 @@ import com.walmart.ticketing.util.Factor.FactorPair;
 
 public class SeatSolver {
 
-	public static List<Coordinate> getBestSeats(int numOfSeats, int maxVer, int maxHor, List<Seat> availableSeats)
+	public static List<Coordinate> getBestSeats(int numOfSeats, boolean[][] venueLayout)
 			throws Exception {
 		
 		if (numOfSeats <= 0) {
 			throw new Exception(numOfSeats + " number of seats cannot be booked.");
 		}
-
-		if (numOfSeats > availableSeats.size()) {
-			throw new Exception("Unable to get best seats. There are only " + availableSeats.size()
-					+ " available while " + numOfSeats + " is requested.");
-		}
-
-		boolean[][] venueLayout = new boolean[maxVer][maxHor];
-
-		for (Seat seat : availableSeats) {
-			venueLayout[seat.getRow()][seat.getColumn()] = true;
-		}
+		
+		int maxVer = venueLayout.length;
+		int maxHor = venueLayout[0].length;
 
 		List<FactorPair> proposedDimensions = (new Factor(numOfSeats)).getFactorPairs();
 

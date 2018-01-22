@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.walmart.ticketing.model.Seat;
 import com.walmart.ticketing.model.SeatGroupHold;
 import com.walmart.ticketing.model.SeatGroupReserved;
 import com.walmart.ticketing.util.Coordinate;
@@ -39,9 +40,23 @@ public class TicketServiceImpl implements TicketService {
 	@Override
 	public SeatGroupHold findAndHoldSeats(int numSeats, String customerEmail, String venueId) throws Exception {
 		String venueName = venueService.getNameOfVenue(venueId);
+		List<Seat> availableSeats = seatService.getAvailableSeats(venueName);
 		
-		List<Coordinate> bestSeatCoordinates = SeatSolver.getBestSeats(numSeats, seatService.getMaxRow(venueId) + 1,
-				seatService.getMaxColumn(venueId) + 1, seatService.getAvailableSeats(venueName));
+		if (numSeats > availableSeats.size()) {
+			throw new Exception("Unable to get best seats. There are only " + availableSeats.size()
+					+ " available while " + numSeats + " is requested.");
+		}
+		
+		int maxVer =  seatService.getMaxRow(venueId) + 1;
+		int maxHor = seatService.getMaxColumn(venueId) + 1;
+
+		boolean[][] venueLayout = new boolean[maxVer][maxHor];
+
+		for (Seat seat : availableSeats) {
+			venueLayout[seat.getRow()][seat.getColumn()] = true;
+		}
+		
+		List<Coordinate> bestSeatCoordinates = SeatSolver.getBestSeats(numSeats, venueLayout);
 
 		List<String> bestSeatsIds = new ArrayList<String>();
 
